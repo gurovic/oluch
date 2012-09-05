@@ -7,10 +7,15 @@
 
 <p>Задача {{submit.problem.number}}. {{submit.problem.title}}.
 
-<p><a target="_blank" href={{MEDIA_URL}}{{submit.file}}>Cданный файл</a>
-
-<p>Оценка: 
-
+{% if is_picture == '1' %}
+  <p><img src={{MEDIA_URL}}{{submit.file}}>
+{% else %}
+  <p><a target="_blank" href={{MEDIA_URL}}{{submit.file}}>Скачать работу участника</a>
+{% endif %}
+<p>Поставьте оценку за эту работу: 
+<font size=+2>
 {% for i in marks %}
   <a href="/rate/{{submit.id}}/{{time}}/{{i}}">{{i}}</a>&nbsp;
 {% endfor %}
+<a href="/rate/{{submit.id}}/{{time}}/-2">не оценивать</a>
+</font>

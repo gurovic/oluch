@@ -43,13 +43,19 @@ def check(request, time, id):
             submit = Submit.objects.filter(problem__id=id, first_mark=-2).latest('datetime')
             submit.first_mark=-1
         else:
-            submit = Submit.objects.filter(problem__id=id, second_mark=-2).latest('datetime')	
+            submit = Submit.objects.filter(problem__id=id, first_mark__gt=-1, second_mark=-2).latest('datetime')	
             submit.second_mark=-1
         submit.save()
+        if str(submit.file).split('.')[-1] in ['png', 'gif', 'jpeg']:
+            is_picture = '1'
+        else:
+            is_picture = '0'
+        print(is_picture, str(submit.file).split('.')[-1])      
         return render(request, 'olymp/check.html', {
+                'is_picture': is_picture,
                 'submit': submit,
                 'time': time,
-                'marks': range(settings.max_mark),
+                'marks': range(settings.max_mark + 1),
             })
 
     else:
@@ -108,7 +114,7 @@ def olymp_status():
 def submit_statistics():
     total = Submit.objects.count()
     zero = Submit.objects.filter(first_mark=-2).count() 
-    first = Submit.objects.filter(first_mark__gt=-1).filter(second_mark=-2).count() 
+    first = Submit.objects.filter(first_mark__gt=-1, second_mark=-2).count() 
     second = Submit.objects.filter(second_mark__gt=-1).count() 
     return (total, zero, first, second)
 
@@ -117,10 +123,10 @@ def statistics(request):
     submits_stat = submit_statistics()
     problems = Problem.objects.all().order_by('id')
     problems_number = [Submit.objects.filter(problem=problem).count() for problem in Problem.objects.all().order_by('id')]
-    problems_zero = [Submit.objects.filter(problem=problem).filter(first_mark=-2).count() for problem in Problem.objects.all().order_by('id')]
-    problems_first = [Submit.objects.filter(problem=problem).filter(first_mark__gt=-1).filter(second_mark=-2).count() for problem in Problem.objects.all().order_by('id')]
-    problems_second = [Submit.objects.filter(problem=problem).filter(second_mark__gt=-1).count() for problem in Problem.objects.all().order_by('id')]
-    problems_first_me = [Submit.objects.filter(problem=problem).filter(first_mark__gt=-1).filter(second_mark=-2).exclude(first_judge=request.user).count() for problem in Problem.objects.all().order_by('id')]
+    problems_zero = [Submit.objects.filter(problem=problem, first_mark=-2).count() for problem in Problem.objects.all().order_by('id')]
+    problems_first = [Submit.objects.filter(problem=problem, first_mark__gt=-1).filter(second_mark=-2).count() for problem in Problem.objects.all().order_by('id')]
+    problems_second = [Submit.objects.filter(problem=problem, second_mark__gt=-1).count() for problem in Problem.objects.all().order_by('id')]
+    problems_first_me = [Submit.objects.filter(problem=problem, first_mark__gt=-1, second_mark=-2).exclude(first_judge=request.user).count() for problem in Problem.objects.all().order_by('id')]
     probs = zip(problems, problems_number, problems_zero, problems_first, problems_first_me, problems_second)
     return render_to_response('olymp/statistics.html', {
                     'state': state,
@@ -165,30 +171,26 @@ def results(request):
 def register(request):
     if request.method == 'POST':
         form = UserInfoForm(request.POST)
-        print '000000000000000000000'
         if form.is_valid():
-            print '******************'
             username = form.cleaned_data['username']
             password1 = form.cleaned_data['password1']
-            password2 = form.cleaned_data['password1']
-            if password1 == password2:
-                print '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'
-                email = form.cleaned_data['email']
-                user = User.objects.create_user(username=username, password=password1, 
-                            email=email)
-                user.first_name = form.cleaned_data['firstname']
-                user.last_name = form.cleaned_data['lastname']
-                user.save()
-                profile = user.userprofile
-                profile.secondname = form.cleaned_data['secondname']
-                profile.position = form.cleaned_data['position']
-                profile.hours = form.cleaned_data['hours']
-                profile.circles = form.cleaned_data['circles']
-                profile.university = form.cleaned_data['university']
-                profile.tel = form.cleaned_data['tel']
-                profile.address = form.cleaned_data['address']
-                profile.workplace = form.cleaned_data['workplace']
-                profile.save()
+            password2 = form.cleaned_data['password2']
+            email = form.cleaned_data['email']
+            user = User.objects.create_user(username=username, password=password1, 
+                        email=email)
+            user.first_name = form.cleaned_data['firstname']
+            user.last_name = form.cleaned_data['lastname']
+            user.save()
+            profile = user.userprofile
+            profile.secondname = form.cleaned_data['secondname']
+            profile.position = form.cleaned_data['position']
+            profile.hours = form.cleaned_data['hours']
+            profile.circles = form.cleaned_data['circles']
+            profile.university = form.cleaned_data['university']
+            profile.tel = form.cleaned_data['tel']
+            profile.address = form.cleaned_data['address']
+            profile.workplace = form.cleaned_data['workplace']
+            profile.save()
  
             user = authenticate(username=username, password=password1)
             login(request, user)

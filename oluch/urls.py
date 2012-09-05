@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^results$', 'oluch.views.results', name='results'),
     url(r'^submit$', 'oluch.views.submit', name='submit'),
     url(r'^check/(?P<time>[12])../(?P<id>\d+)$', 'oluch.views.check', name='check'),
-    url(r'^rate/(?P<submit_id>\d+)/(?P<time>[12])/(?P<mark>\d+)$', 'oluch.views.rate', name='rate'),
+    url(r'^rate/(?P<submit_id>\d+)/(?P<time>[12])/(?P<mark>-?\d+)$', 'oluch.views.rate', name='rate'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
