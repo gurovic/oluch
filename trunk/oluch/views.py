@@ -46,7 +46,7 @@ def check(request, time, id):
             submit = Submit.objects.filter(problem__id=id, first_mark__gt=-1, second_mark=-2).latest('datetime')	
             submit.second_mark=-1
         submit.save()
-        if str(submit.file).split('.')[-1] in ['png', 'gif', 'jpeg']:
+        if str(submit.file).split('.')[-1] in ['png', 'gif', 'jpeg', 'jpg']:
             is_picture = '1'
         else:
             is_picture = '0'
