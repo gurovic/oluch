@@ -41,8 +41,8 @@
 <td>{{ first_count }} ({{ submits_first_percent }}%)</td>
 {% for i in probs %}
   <td>{{ i.3 }}	
-  {% if i.3 > 0 %}
-  <a href="check/2nd/{{i.0.id}}">Проверить</a>
+  {% if i.4 > 0 %}
+  <a href="check/2nd/{{ i.0.id }}">Проверить ({{ i.4 }})</a>
   </td>
   {% endif %}
 {% endfor %}
@@ -51,7 +51,7 @@
 <tr><td>проверено полность</td>
 <td>{{ second_count }} ({{ submits_second_percent }}%)</td>
 {% for i in probs %}
-  <td>{{ i.4 }}</td>	
+  <td>{{ i.5 }}</td>	
 {% endfor %}
 </tr>
 </table>		
