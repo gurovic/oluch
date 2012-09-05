@@ -1,0 +1,24 @@
+<h2>Добро пожаловать, {{user.first_name}} {{user.userprofile.secondname}}!</h2>
+<p><a href="/logout">Выйти из системы</a>
+<hr>
+<h4>Сдача задач</h4>
+{% if state == -1 %}
+  До начала интернет-тура осталось {{ time }}
+{% elif state == 0 %}
+  <p>До окончания интернет-тура осталось {{ time }}
+  {% if form %}
+    <p><form action="/submit" enctype="multipart/form-data" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+    </form>
+  {% else %}
+    <p>Вы уже сдали решения всех задач.
+  {% endif %}
+{% elif state == 1 %}
+  Приём решений интернет-тура окончен.
+{% endif %}
+<hr><h4>Список уже сданных вами задач:</h4>
+{% for prob in submited %}
+  {{prob.1}}. {{prob.2}}<br>
+{% endfor %}
+<hr>

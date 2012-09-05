@@ -1,0 +1,16 @@
+{% if time == '1' %}
+<p>ПЕРВАЯ ПРОВЕРКА
+{% else %}
+<p>ВТОРАЯ ПРОВЕРКА
+<p>результат первой проверки: {{submit.first_mark}} ({{submit.first_judge.last_name}})
+{% endif %}
+
+<p>Задача {{submit.problem.number}}. {{submit.problem.title}}.
+
+<p><a target="_blank" href={{MEDIA_URL}}{{submit.file}}>Cданный файл</a>
+
+<p>Оценка: 
+
+{% for i in marks %}
+  <a href="/rate/{{submit.id}}/{{time}}/{{i}}">{{i}}</a>&nbsp;
+{% endfor %}

@@ -1,0 +1,30 @@
+<table border=1>
+<tr>
+  <th>Место</th>
+  <th>Участник</th>
+  <th>Сумма</th>
+  {% for problem in problems %}
+    <th>{{ problem.number }}. {{ problem.title }}</th>
+  {% endfor %}
+</tr>
+
+{% for user, sum, result in results %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ user }}</td>
+      <td>{{ sum }}</td>
+    {% for cell in result %}
+        {% if cell == -2 %}
+          <td bgcolor='red'>&nbsp;</td>
+        {% elif cell == -1 %}
+          <td bgcolor='yellow'>&nbsp;</td>
+        {% elif cell == -3 %}
+          <td>&nbsp;</td>
+        {% else %}
+          <td>{{ cell }}</td>
+        {% endif %}
+    {% endfor%}
+    </tr>
+{% endfor %}
+
+</table>

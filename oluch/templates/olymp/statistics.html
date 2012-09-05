@@ -1,0 +1,57 @@
+<p>
+{% if state == -1 %}
+  До начала интернет-тура осталось {{ time }}
+{% elif state == 0 %}
+  До окончания интернет-тура осталось {{ time }}
+{% elif state == 1 %}
+  Приём решений интернет-тура окончен.
+{% endif %}
+
+
+<br><br><br><p>
+<h4>Проверка работ</h4>
+<table border=1>
+<tr>
+<th>&nbsp;</th>
+<th>все задачи</th>
+{% for i in probs %}
+  <th>{{ i.0.number }}. {{ i.0.title}}</th>	
+{% endfor %}
+</tr>
+
+<tr><td>сдано решений</td>
+<td>{{ submits_count }}</td>
+{% for i in probs %}
+  <td>{{ i.1 }}</td>	
+{% endfor %}
+</tr>
+
+<tr><td>ожидает первой проверки</td>
+<td>{{ zero_count }} ({{ submits_zero_percent }}%)</td>
+{% for i in probs %}
+  <td>{{ i.2 }} 
+  {% if i.2 > 0 %}
+    <a href="check/1st/{{i.0.id}}">Проверить</a>
+  {% endif %}
+  </td>	
+{% endfor %}
+</tr>
+
+<tr><td>ожидает второй проверки</td>
+<td>{{ first_count }} ({{ submits_first_percent }}%)</td>
+{% for i in probs %}
+  <td>{{ i.3 }}	
+  {% if i.3 > 0 %}
+  <a href="check/2nd/{{i.0.id}}">Проверить</a>
+  </td>
+  {% endif %}
+{% endfor %}
+</tr>
+
+<tr><td>проверено полность</td>
+<td>{{ second_count }} ({{ submits_second_percent }}%)</td>
+{% for i in probs %}
+  <td>{{ i.4 }}</td>	
+{% endfor %}
+</tr>
+</table>		
