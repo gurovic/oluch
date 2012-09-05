@@ -120,7 +120,8 @@ def statistics(request):
     problems_zero = [Submit.objects.filter(problem=problem).filter(first_mark=-2).count() for problem in Problem.objects.all().order_by('id')]
     problems_first = [Submit.objects.filter(problem=problem).filter(first_mark__gt=-1).filter(second_mark=-2).count() for problem in Problem.objects.all().order_by('id')]
     problems_second = [Submit.objects.filter(problem=problem).filter(second_mark__gt=-1).count() for problem in Problem.objects.all().order_by('id')]
-    probs = zip(problems, problems_number, problems_zero, problems_first, problems_second)
+    problems_first_me = [Submit.objects.filter(problem=problem).filter(first_mark__gt=-1).filter(second_mark=-2).exclude(first_judge=request.user).count() for problem in Problem.objects.all().order_by('id')]
+    probs = zip(problems, problems_number, problems_zero, problems_first, problems_first_me, problems_second)
     return render_to_response('olymp/statistics.html', {
                     'state': state,
                     'time': time,

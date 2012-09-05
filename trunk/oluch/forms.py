@@ -11,13 +11,13 @@ class SubmitForm(forms.Form):
 
 
 class UserInfoForm(forms.Form):
-    username = forms.CharField(max_length=20)
-    password1 = forms.CharField(max_length=20)
-    password2 = forms.CharField(max_length=20)
+    username = forms.SlugField(max_length=20)
+    password1 = forms.SlugField(max_length=20, widget=forms.PasswordInput)
+    password2 = forms.SlugField(max_length=20, widget=forms.PasswordInput)
     email = forms.CharField(max_length=200)
+    lastname = forms.CharField(max_length=100, required=False)
     firstname = forms.CharField(max_length=100, required=False)
     secondname = forms.CharField(max_length=100, required=False)
-    lastname = forms.CharField(max_length=100, required=False)
     workplace = forms.CharField(max_length=1000, required=False)
     position = forms.CharField(max_length=1000, required=False)
     hours = forms.CharField(max_length=1000, required=False)
