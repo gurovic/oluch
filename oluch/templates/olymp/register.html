@@ -1,5 +1,16 @@
+<style type="text/css">
+    table{
+        cell-spacing:10;
+    }
+    th {
+        text-align: left;
+        width: 300;
+    }
+</style>
 <h3>Регистрация участника интернет-тура</h3>
 <form action="/register" method="post">{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="Зарегистрироваться" />
+<p><table class='tab'>
+{{ form.as_table }}
+</table><br>
+<p align="center"><input type="submit" value="Зарегистрироваться" />
 </form>

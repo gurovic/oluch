@@ -17,7 +17,7 @@ urlpatterns = patterns('',
     url(r'^statistics$', 'oluch.views.statistics', name='statistics'),
     url(r'^results$', 'oluch.views.results', name='results'),
     url(r'^submit$', 'oluch.views.submit', name='submit'),
-    url(r'^check/(?P<time>[12])../(?P<id>\d+)$', 'oluch.views.check', name='check'),
+    url(r'^check/(?P<time>[12])../(?P<problem_id>\d+)$', 'oluch.views.check', name='check'),
     url(r'^rate/(?P<submit_id>\d+)/(?P<time>[12])/(?P<mark>-?\d+)$', 'oluch.views.rate', name='rate'),
 
     # Uncomment the admin/doc line below to enable admin documentation:

@@ -1,21 +1,22 @@
+<h3>РЕШЕНИЕ №{{submit.id}}</h3>
 {% if time == '1' %}
 <p>ПЕРВАЯ ПРОВЕРКА
 {% else %}
 <p>ВТОРАЯ ПРОВЕРКА
-<p>результат первой проверки: {{submit.first_mark}} ({{submit.first_judge.last_name}})
+<p>результат первой проверки: {{ submit.first_mark }} ({{ submit.first_judge.last_name }})
 {% endif %}
 
-<p>Задача {{submit.problem.number}}. {{submit.problem.title}}.
+<p>Задача {{ submit.problem.number }}. {{ submit.problem.title }}.
 
 {% if is_picture == '1' %}
-  <p><img src={{MEDIA_URL}}{{submit.file}}>
+  <p><img src={{ MEDIA_URL }}{{ submit.file }}>
 {% else %}
-  <p><a target="_blank" href={{MEDIA_URL}}{{submit.file}}>Скачать работу участника</a>
+  <p><a target="_blank" href={{ MEDIA_URL }}{{ submit.file }}>Скачать работу участника</a>
 {% endif %}
 <p>Поставьте оценку за эту работу: 
 <font size=+2>
 {% for i in marks %}
-  <a href="/rate/{{submit.id}}/{{time}}/{{i}}">{{i}}</a>&nbsp;
+  <a href="/rate/{{ submit.id }}/{{ time }}/{{ i }}">{{ i }}</a>&nbsp;
 {% endfor %}
-<a href="/rate/{{submit.id}}/{{time}}/-2">не оценивать</a>
+<a href="/rate/{{ submit.id }}/{{ time }}/-2">не оценивать</a>
 </font>

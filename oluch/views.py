@@ -36,21 +36,20 @@ def rate(request, submit_id, time, mark):
     return HttpResponseRedirect('/statistics')
 
 
-def check(request, time, id):
+def check(request, time, problem_id, submit_id=None):
     print 'time=', time
     if request.method != 'POST':
         if time == '1':
-            submit = Submit.objects.filter(problem__id=id, first_mark=-2).latest('datetime')
+            submit = Submit.objects.filter(problem__id=problem_id, first_mark=-2).latest('datetime')
             submit.first_mark=-1
         else:
-            submit = Submit.objects.filter(problem__id=id, first_mark__gt=-1, second_mark=-2).latest('datetime')	
+            submit = Submit.objects.filter(problem__id=problem_id, first_mark__gt=-1, second_mark=-2).latest('datetime')	
             submit.second_mark=-1
         submit.save()
         if str(submit.file).split('.')[-1] in ['png', 'gif', 'jpeg', 'jpg']:
             is_picture = '1'
         else:
             is_picture = '0'
-        print(is_picture, str(submit.file).split('.')[-1])      
         return render(request, 'olymp/check.html', {
                 'is_picture': is_picture,
                 'submit': submit,
