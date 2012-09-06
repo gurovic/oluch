@@ -27,14 +27,19 @@ def logout_user(request):
 def rate(request, submit_id, time):
     submit = Submit.objects.get(id=submit_id)
     if time == '1':
-       submit.first_mark = int(request.POST["subm"]) if request.POST["subm"] != 'не оценивать' else -2
+       if request.POST["subm"] != u'не оценивать':
+           submit.first_mark = int(request.POST["subm"])
+       else: 
+           submit.first_mark = -2
        submit.first_judge = request.user
+       submit.first_comment = request.POST["comment"]
     else:
         if request.POST["subm"] != u'не оценивать':     
             submit.final_mark = submit.second_mark = int(request.POST["subm"])
         else:
             submit.final_mark = submit.second_mark = -2
         submit.second_judge = request.user
+        submit.second_comment = request.POST["comment"]
     submit.save()
     return HttpResponseRedirect('/statistics')
 
