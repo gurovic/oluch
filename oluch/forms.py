@@ -3,12 +3,12 @@ from django import forms
 from oluch.models import Submit
 
 class SubmitForm(forms.Form):
-    file = forms.FileField()
+    file = forms.FileField(label="")
     user = forms.HiddenInput()
 
     def __init__(self, choices, *args, **kwargs):
         super(SubmitForm, self).__init__(*args, **kwargs)
-        self.fields['problem'] = forms.ChoiceField(choices) 
+        self.fields['problem'] = forms.ChoiceField(choices, label="Задача") 
 
 
 class UserInfoForm(forms.Form):
