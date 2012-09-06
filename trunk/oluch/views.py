@@ -37,8 +37,7 @@ def rate(request, submit_id, time, mark):
 
 
 def check(request, time, problem_id, submit_id=None):
-    print 'time=', time
-    if request.method != 'POST':
+    if submit_id is None:
         if time == '1':
             submit = Submit.objects.filter(problem__id=problem_id, first_mark=-2).latest('datetime')
             submit.first_mark=-1
@@ -46,6 +45,9 @@ def check(request, time, problem_id, submit_id=None):
             submit = Submit.objects.filter(problem__id=problem_id, first_mark__gt=-1, second_mark=-2).latest('datetime')	
             submit.second_mark=-1
         submit.save()
+        return HttpResponseRedirect('/check/' + time + ('st/' if time == '1' else 'nd/') + str(problem_id) + '/' + str(submit.id))
+    else:
+        submit = Submit.objects.get(id=submit_id)
         if str(submit.file).split('.')[-1] in ['png', 'gif', 'jpeg', 'jpg']:
             is_picture = '1'
         else:
@@ -56,9 +58,6 @@ def check(request, time, problem_id, submit_id=None):
                 'time': time,
                 'marks': range(settings.max_mark + 1),
             })
-
-    else:
-        return HttpResponseRedirect('/statistics')
 
 
 def user_submited_problems(user):
