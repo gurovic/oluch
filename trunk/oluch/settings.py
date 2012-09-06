@@ -159,7 +159,7 @@ LOGGING = {
 from datetime import datetime
 
 start = datetime(2012, 8, 31, 13, 0, 0)
-finish = datetime(2012, 9, 5, 19, 0, 0) 	
+finish = datetime(2012, 9, 10, 19, 0, 0) 	
 max_mark = 10
 problems_number = 3
 LOGIN_REDIRECT_URL = '/choose_page'

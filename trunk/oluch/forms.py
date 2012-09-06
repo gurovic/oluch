@@ -12,20 +12,20 @@ class SubmitForm(forms.Form):
 
 
 class UserInfoForm(forms.Form):
-    username = forms.SlugField(max_length=20, label="Логин")
-    password1 = forms.SlugField(max_length=20, widget=forms.PasswordInput, label="Пароль")
-    password2 = forms.SlugField(max_length=20, widget=forms.PasswordInput, label="Пароль (еще раз)")
-    email = forms.CharField(max_length=200, label="Адрес электронной почты")
-    lastname = forms.CharField(max_length=100, required=False, label="Фамилия")
-    firstname = forms.CharField(max_length=100, required=False, label="Имя")
-    secondname = forms.CharField(max_length=100, required=False, label="Отчество")
-    workplace = forms.CharField(max_length=1000, required=False, label="Место работы (укажите номер школы или ее полное название)")
-    position = forms.CharField(max_length=1000, required=False, label="Должность. Категория (квалификационный разряд)")
-    hours = forms.CharField(max_length=1000, required=False, label="В каких классах вы ведете уроки? (укажите предметы, параллели и количество часов)")
-    circles = forms.CharField(max_length=1000, required=False, label="В каких параллелях (и по каким предметам) вы ведете кружки или факультативы?")
-    university = forms.CharField(max_length=1000, required=False, label="Какой ВУЗ и в каком году вы закончили?")
-    tel = forms.CharField(max_length=1000, required=False, label="Контактный телефон")
-    address = forms.CharField(max_length=1000, required=False, label="Домашний почтовый адрес с индексом")  
+    username = forms.SlugField(max_length=20, label="Логин", widget=forms.TextInput(attrs={'size':'40'}))
+    password1 = forms.SlugField(max_length=20, widget=forms.PasswordInput(attrs={'size':'40'}), label="Пароль")
+    password2 = forms.SlugField(max_length=20, widget=forms.PasswordInput(attrs={'size':'40'}), label="Пароль (еще раз)")
+    email = forms.CharField(max_length=200, label="Адрес электронной почты", widget=forms.TextInput(attrs={'size':'40'}))
+    lastname = forms.CharField(max_length=100, required=False, label="Фамилия", widget=forms.TextInput(attrs={'size':'40'}))
+    firstname = forms.CharField(max_length=100, required=False, label="Имя", widget=forms.TextInput(attrs={'size':'40'}))
+    secondname = forms.CharField(max_length=100, required=False, label="Отчество", widget=forms.TextInput(attrs={'size':'40'}))
+    workplace = forms.CharField(max_length=1000, required=False, label="Место работы (укажите номер школы или ее полное название)", widget=forms.Textarea(attrs={'rows':'3', 'cols':'31'}))
+    position = forms.CharField(max_length=1000, required=False, label="Должность. Категория (квалификационный разряд)", widget=forms.TextInput(attrs={'size':'40'}))
+    hours = forms.CharField(max_length=1000, required=False, label="В каких классах вы ведете уроки? (укажите предметы, параллели и количество часов)", widget=forms.Textarea(attrs={'rows':'3', 'cols':'31'}))
+    circles = forms.CharField(max_length=1000, required=False, label="В каких параллелях (и по каким предметам) вы ведете кружки или факультативы?", widget=forms.Textarea(attrs={'rows':'3', 'cols':'31'}))
+    university = forms.CharField(max_length=1000, required=False, label="Какой ВУЗ и в каком году вы закончили?", widget=forms.TextInput(attrs={'size':'40'}))
+    tel = forms.CharField(max_length=1000, required=False, label="Контактный телефон", widget=forms.TextInput(attrs={'size':'40'}))
+    address = forms.CharField(max_length=1000, required=False, label="Домашний почтовый адрес с индексом", widget=forms.Textarea(attrs={'rows':'3', 'cols':'31'}))  
 
     def clean(self):
         '''Required custom validation for the form.'''
