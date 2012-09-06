@@ -46,8 +46,10 @@ class Submit(models.Model):
     #marks info
     first_mark = models.IntegerField(default=-2) #-2: not evaluated yet, -1: is evaluatting just now
     first_judge = models.ForeignKey(User, related_name='first_mark_submit', blank=True, null=True)
+    first_comment = models.CharField(max_length=1000, blank=True)
     second_mark = models.IntegerField(default=-2)
     second_judge = models.ForeignKey(User, related_name='second_mark_submit', blank=True, null=True)
+    second_comment = models.CharField(max_length=1000, blank=True)
     final_mark = models.IntegerField(default=-2)
 
     #file info
