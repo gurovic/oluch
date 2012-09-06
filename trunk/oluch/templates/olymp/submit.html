@@ -6,10 +6,11 @@
   До начала интернет-тура осталось {{ time }}
 {% elif state == 0 %}
   <p>До окончания интернет-тура осталось {{ time }}
+  <br><br>
   {% if form %}
     <p><form action="/submit" enctype="multipart/form-data" method="post">{% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Submit" />
+    <input type="submit" value="Отправить" />
     </form>
   {% else %}
     <p>Вы уже сдали решения всех задач.

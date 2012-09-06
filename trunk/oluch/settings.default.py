@@ -163,3 +163,4 @@ finish = datetime(2012, 9, 10, 19, 0, 0)
 max_mark = 10
 problems_number = 3
 LOGIN_REDIRECT_URL = '/choose_page'
+LOGIN_URL = '/login'

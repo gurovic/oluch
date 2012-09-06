@@ -2,6 +2,7 @@
 from django import forms
 from django.db.models import Count
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, render_to_response, HttpResponseRedirect
@@ -10,6 +11,10 @@ import datetime
 import settings
 from oluch.models import Submit, Problem
 from oluch.forms import SubmitForm, UserInfoForm
+
+
+def is_jury(user):
+    return Group.objects.get(name='Jury') in user.groups.all()
 
 
 def choose_page(request):
@@ -24,6 +29,8 @@ def logout_user(request):
     logout(request)
     return HttpResponseRedirect('/login')
 
+
+@user_passes_test(is_jury)
 def rate(request, submit_id, time):
     submit = Submit.objects.get(id=submit_id)
     if time == '1':
@@ -43,7 +50,7 @@ def rate(request, submit_id, time):
     submit.save()
     return HttpResponseRedirect('/statistics')
 
-
+@user_passes_test(is_jury)
 def check(request, time, problem_id, submit_id=None):
     if submit_id is None:
         if time == '1':
@@ -124,6 +131,7 @@ def submit_statistics():
     second = Submit.objects.filter(second_mark__gt=-1).count() 
     return (total, zero, first, second)
 
+@user_passes_test(is_jury)
 def statistics(request):
     state, time = olymp_status()
     submits_stat = submit_statistics()
@@ -149,6 +157,7 @@ def statistics(request):
                 context_instance=RequestContext(request)
             )
 
+@user_passes_test(is_jury)
 def results(request):
     problems = dict(zip(map(lambda x: x.id, Problem.objects.all()), range(2, settings.problems_number + 2)))
     results = dict()
